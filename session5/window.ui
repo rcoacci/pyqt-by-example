@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,54 +10,45 @@
     <height>464</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Todo</string>
   </property>
-  <property name="windowIcon" >
-   <iconset resource="icons.qrc" >
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
     <normaloff>:/todo.svg</normaloff>:/todo.svg</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget" >
-   <layout class="QVBoxLayout" name="verticalLayout" >
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QSplitter" name="splitter" >
-      <property name="orientation" >
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QTreeWidget" name="list" >
-       <property name="alternatingRowColors" >
+      <widget class="QTableView" name="list">
+       <property name="alternatingRowColors">
         <bool>true</bool>
        </property>
-       <property name="rootIsDecorated" >
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <property name="showGrid">
         <bool>false</bool>
        </property>
-       <property name="uniformRowHeights" >
-        <bool>true</bool>
+       <property name="gridStyle">
+        <enum>Qt::NoPen</enum>
        </property>
-       <property name="sortingEnabled" >
-        <bool>true</bool>
-       </property>
-       <property name="allColumnsShowFocus" >
-        <bool>true</bool>
-       </property>
-       <column>
-        <property name="text" >
-         <string>Task</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Date</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Tags</string>
-        </property>
-       </column>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
       </widget>
-      <widget class="editor" native="1" name="editor" >
-       <property name="enabled" >
+      <widget class="editor" name="editor" native="true">
+       <property name="enabled">
         <bool>true</bool>
        </property>
       </widget>
@@ -64,77 +56,77 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar" >
-   <property name="geometry" >
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>340</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuTask" >
-    <property name="title" >
+   <widget class="QMenu" name="menuTask">
+    <property name="title">
      <string>&amp;Task</string>
     </property>
-    <addaction name="actionNew_Task" />
-    <addaction name="actionEdit_Task" />
-    <addaction name="separator" />
-    <addaction name="actionDelete_Task" />
+    <addaction name="actionNew_Task"/>
+    <addaction name="actionEdit_Task"/>
+    <addaction name="separator"/>
+    <addaction name="actionDelete_Task"/>
    </widget>
-   <addaction name="menuTask" />
+   <addaction name="menuTask"/>
   </widget>
-  <widget class="QToolBar" name="toolBar" >
-   <property name="windowTitle" >
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
     <string>toolBar</string>
    </property>
-   <attribute name="toolBarArea" >
+   <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
-   <attribute name="toolBarBreak" >
+   <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew_Task" />
-   <addaction name="actionEdit_Task" />
-   <addaction name="separator" />
-   <addaction name="actionDelete_Task" />
+   <addaction name="actionNew_Task"/>
+   <addaction name="actionEdit_Task"/>
+   <addaction name="separator"/>
+   <addaction name="actionDelete_Task"/>
   </widget>
-  <action name="actionDelete_Task" >
-   <property name="enabled" >
+  <action name="actionDelete_Task">
+   <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon" >
-    <iconset resource="icons.qrc" >
+   <property name="icon">
+    <iconset resource="icons.qrc">
      <normaloff>:/delete.svg</normaloff>:/delete.svg</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Delete Task</string>
    </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Del</string>
    </property>
   </action>
-  <action name="actionNew_Task" >
-   <property name="icon" >
-    <iconset resource="icons.qrc" >
+  <action name="actionNew_Task">
+   <property name="icon">
+    <iconset resource="icons.qrc">
      <normaloff>:/filenew.svg</normaloff>:/filenew.svg</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>New Task</string>
    </property>
   </action>
-  <action name="actionEdit_Task" >
-   <property name="checked" >
+  <action name="actionEdit_Task">
+   <property name="checked">
     <bool>false</bool>
    </property>
-   <property name="enabled" >
+   <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon" >
-    <iconset resource="icons.qrc" >
+   <property name="icon">
+    <iconset resource="icons.qrc">
      <normaloff>:/edit.svg</normaloff>:/edit.svg</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Edit Task</string>
    </property>
   </action>
@@ -148,7 +140,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="icons.qrc" />
+  <include location="icons.qrc"/>
  </resources>
  <connections/>
 </ui>

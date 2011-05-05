@@ -2,21 +2,24 @@
 
 """The user interface for our app"""
 
-import os, sys
+from PyQt4 import QtCore, QtGui
+from todo_model import TodoTreeModel
+from windowUi import Ui_MainWindow
+import os
+import sys
+import todo
 
 # Import Qt modules
-from PyQt4 import QtCore, QtGui
 
 # Import the compiled UI module
-from windowUi import Ui_MainWindow
 
 # Import our backend
-import todo
 
 # Create a class for our main window
 class Main(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
+        self.setStyleSheet("QHeaderView::section{border-style:none;}")
 
         # This is always the same
         self.ui = Ui_MainWindow()
@@ -27,15 +30,21 @@ class Main(QtGui.QMainWindow):
 
         # Let's do something interesting: load the database contents
         # into our task list widget
-        for task in todo.Task.query.all():
-            tags = ','.join([t.name for t in task.tags])
-            item = QtGui.QTreeWidgetItem([task.text, str(task.date), tags])
-            item.task = task
-            if task.done:
-                item.setCheckState(0, QtCore.Qt.Checked)
-            else:
-                item.setCheckState(0, QtCore.Qt.Unchecked)
-            self.ui.list.addTopLevelItem(item)
+#        for task in todo.Task.query.all():
+#            tags = ','.join([t.name for t in task.tags])
+#            item = QtGui.QTreeWidgetItem([task.text, str(task.date), tags])
+#            item.task = task
+#            if task.done:
+#                item.setCheckState(0, QtCore.Qt.Checked)
+#            else:
+#                item.setCheckState(0, QtCore.Qt.Unchecked)
+#            self.ui.list.addTopLevelItem(item)
+        self.ui.list.setModel(TodoTreeModel(self))
+        self.ui.list.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
+        self.ui.list.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
+        self.ui.list.selectionModel().selectionChanged.connect(self.on_list_currentItemChanged)
+        self.ui.list.currentItem = None
+
 
     def on_list_itemChanged(self, item, column):
         if item.checkState(0):
@@ -59,20 +68,26 @@ class Main(QtGui.QMainWindow):
         self.ui.list.takeTopLevelItem(self.ui.list.indexOfTopLevelItem(item))
 
     def on_list_currentItemChanged(self, current=None, previous=None):
+
+        anySelected = bool(current and current.indexes()[0])
         # In Session 5, fixes a bug where an item was current but had no visible
         # changes, so it could be deleted/edited surprisingly.
-        if current:
-            current.setSelected(True)
+#        if current:
+#            current.setSelected(True)
+
+        if anySelected:
+            self.ui.list.currentItem = self.ui.list.model().task(current.indexes()[0])
+        else:
+            self.ui.list.currentItem = None
 
         # Changed in session 5, because we have more than one action
         # that should only be enabled only if a task is selected
         for action in  [self.ui.actionDelete_Task,
                         self.ui.actionEdit_Task,
                        ]:
-            if current:
-                action.setEnabled(True)
-            else:
-                action.setEnabled(False)
+            action.setEnabled(anySelected)
+        if self.ui.editor.isVisible():
+            self.on_actionEdit_Task_triggered(True)
 
     def on_actionNew_Task_triggered(self, checked=None):
         if checked is None: return
@@ -96,7 +111,7 @@ class Main(QtGui.QMainWindow):
         if checked is None: return
 
         # First see what task is "current".
-        item = self.ui.list.currentItem()
+        item = self.ui.list.currentItem
 
         if not item: # None selected, so we don't know what to edit!
             return
